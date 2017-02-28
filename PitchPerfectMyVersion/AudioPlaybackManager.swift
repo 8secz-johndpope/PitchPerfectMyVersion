@@ -30,6 +30,8 @@ class AudioPlaybackManager: NSObject {
     var audioEngine:AVAudioEngine!
     var audioPlayerNode: AVAudioPlayerNode!
     
+    var playbackTimer: Timer!
+    
     enum Errors: Swift.Error {
         case AudioFileSetupFailure(String)
         case AudioEngineFailure(String)
@@ -129,11 +131,13 @@ class AudioPlaybackManager: NSObject {
         audioEngine.attach(speedNode)
         
         audioEngine.connect(audioPlayerNode,
-                            to: speedNode,
+                            to: audioEngine.outputNode,
                             format: mainMixer.outputFormat(forBus: 0))
+        /*
         audioEngine.connect(speedNode,
                             to: audioEngine.outputNode,
                             format: mainMixer.outputFormat(forBus: 0))
+ */
 
         /*
         for i in 0..<(nodesArray.count - 1) {
@@ -142,18 +146,12 @@ class AudioPlaybackManager: NSObject {
         */
         //audioPlayerNode.stop()
         audioPlayerNode.scheduleFile(audioFile!, at: nil) {
-            
-            print("scheduleFile completion")
-            var delayInSeconds: Double = 0
-            
-            if let lastRenderTime = self.audioPlayerNode.lastRenderTime, let playerTime = self.audioPlayerNode.playerTime(forNodeTime: lastRenderTime) {
-                
-                delayInSeconds = Double((audioFile!.length) - playerTime.sampleTime) / Double((audioFile!.processingFormat.sampleRate))
-                
-                print("delayInSeconds: \(delayInSeconds)")
+
+            // place UI update on main thread
+            OperationQueue.main.addOperation() {
+                self.stopAudioPlayback()
             }
         }
-        
         do {
             // play the recording!
             try audioEngine.start()
