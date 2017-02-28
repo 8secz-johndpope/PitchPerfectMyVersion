@@ -40,7 +40,7 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
     var audioFileURL: URL?
     
     enum RecordState {
-        case ready, recording, problem
+        case ready, recording, playback, problem
     }
     
     struct Alerts {
@@ -80,39 +80,32 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
                 try session.setActive(true)
             }
             catch {
-                print("failed setting active")
+                return
             }
         } catch {
-            print("bad session.setCategory")
             return
         }
         
         do {
             try audioRecorder = AVAudioRecorder(url: filePath!, settings: [:])
         } catch {
-            print("bad audioRecorder try")
             return
         }
+        
         // create audioRecorder, configure, then start recording
         audioRecorder.delegate = self
         audioRecorder.isMeteringEnabled = true
         audioRecorder.prepareToRecord()
         audioRecorder.record()
-        
-        elapsedTime = 0
-        updateElapsedTimeLabel()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) {
-            (timer) in
-            self.elapsedTime += 1
-            self.updateElapsedTimeLabel()
-        }
+        startElapsedTimer()
     }
     
     @IBAction func playbackButtonPressed(_ sender: Any) {
         
         if let url = audioFileURL {
             let playbackManager = AudioPlaybackManager()
-            try! playbackManager.playAudio(url: audioRecorder.url, effects: AudioEffects.echo)
+            try! playbackManager.playAudio(url: url, effects: [AudioEffects.echo])
+            startElapsedTimer()
         }
     }
     
@@ -126,41 +119,14 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
         
         // stop recording and update label message and button state
         audioRecorder.stop()
+        
         // deactivate session
         let audioSession = AVAudioSession.sharedInstance()
-        
-        // test for throw when setting session active state
         do {
             try audioSession.setActive(false)
-            print("able set set session inactive")
-        }
-        catch {
-            //createAlert(AlertState.BadSession)
-            print("fail setting audioSession active = false")
+        } catch {
         }
         
-        /*
-        // function to handle the ceasing of recording
-        func ceaseRecording() {
-            
-            // stop/remove time from runloop
-            timer.invalidate()
-            
-            // stop recording
-            audioRecorder.stop()
-            
-            // deactivate session
-            let audioSession = AVAudioSession.sharedInstance()
-            
-            // test for throw when setting session active state
-            do {
-                try audioSession.setActive(false)
-            }
-            catch {
-                createAlert(AlertState.BadSession)
-            }
-        }
- */
         recordingStatusLabel.text = "Record Audio"
         startRecordingButton.isEnabled = true
         stopRecordingButton.isEnabled = false
@@ -226,6 +192,12 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
             recordingStatusLabel.text = "Recording in Progress"
             playbackLabel.alpha = 0.5
             playbackButton.isEnabled = false
+        case .playback:
+            startRecordingButton.isEnabled = false
+            stopRecordingButton.isEnabled = true
+            recordingStatusLabel.text = "Playing Audio"
+            playbackLabel.alpha = 0.5
+            playbackButton.isEnabled = false
         case .problem:
             startRecordingButton.isEnabled = false
             stopRecordingButton.isEnabled = false
@@ -233,6 +205,17 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
             playbackLabel.alpha = 0.5
             playbackButton.isEnabled = false
             break
+        }
+    }
+    
+    func startElapsedTimer() {
+        
+        elapsedTime = 0
+        updateElapsedTimeLabel()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) {
+            (timer) in
+            self.elapsedTime += 1
+            self.updateElapsedTimeLabel()
         }
     }
     
