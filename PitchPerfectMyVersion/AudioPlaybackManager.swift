@@ -22,7 +22,7 @@ protocol AudioPlaybackManagerDelegate {
     func audioPayerFinishedPlaying(sender: AudioPlaybackManager)
 }
 
-class AudioPlaybackManager: NSObject, AVAudioPlayerDelegate {
+class AudioPlaybackManager: NSObject {
     
     var delegate: AudioPlaybackManagerDelegate!
     //var audioURL: URL?
@@ -32,15 +32,21 @@ class AudioPlaybackManager: NSObject, AVAudioPlayerDelegate {
     
     enum Errors: Swift.Error {
         case AudioFileSetupFailure(String)
+        case AudioEngineFailure(String)
     }
+    
     
     func playAudio(url: URL?, effects: AudioEffects...)  throws {
         
+        print("playAudio")
+        
         // initialize (recording) audio file
-        var audioFile: AVAudioFile!
+        var audioFile: AVAudioFile?
         do {
+            print(url!)
             audioFile = try AVAudioFile(forReading: url! as URL)
         } catch {
+            print("error with file retrieval")
             throw Errors.AudioFileSetupFailure("Error retrieving file from URL")
         }
         
@@ -48,13 +54,19 @@ class AudioPlaybackManager: NSObject, AVAudioPlayerDelegate {
             throw Errors.AudioFileSetupFailure("Unable to create valid audio file")
         }
         
+        print("playAudio..made it past guard: file: \(audioFile)")
+
         // initialize audio engine components
         audioEngine = AVAudioEngine()
         
         // node for playing audio
         audioPlayerNode = AVAudioPlayerNode()
-        audioEngine.attach(audioPlayerNode)
         
+        stopAudioPlayback()
+        
+        audioEngine.attach(audioPlayerNode)
+
+        /*
         // create array of audio nodes..first pull out speed and pitch
         // will ultimated be connected in audioEngine in the order of the array
         // want to ensure echo and reverb are last in nodes array
@@ -104,18 +116,53 @@ class AudioPlaybackManager: NSObject, AVAudioPlayerDelegate {
                 break;
             }
         }
-        
+
         // place output node at end
         nodesArray.append((audioEngine.outputNode))
+                */
         
         // now connect the nodes
+        //mainMixer.outputFormat(forBus: 0)
+        let mainMixer = audioEngine.mainMixerNode
+        let speedNode = AVAudioUnitTimePitch()
+        speedNode.rate = 1.5
+        audioEngine.attach(speedNode)
+        
+        audioEngine.connect(audioPlayerNode,
+                            to: speedNode,
+                            format: mainMixer.outputFormat(forBus: 0))
+        audioEngine.connect(speedNode,
+                            to: audioEngine.outputNode,
+                            format: mainMixer.outputFormat(forBus: 0))
+
+        /*
         for i in 0..<(nodesArray.count - 1) {
-            audioEngine.connect(nodesArray[i], to: nodesArray[i + 1], format: audioFile?.processingFormat)
+            audioEngine.connect(nodesArray[i], to: nodesArray[i + 1], format: mainMixer.outputFormat(forBus: 0))
+        }
+        */
+        //audioPlayerNode.stop()
+        audioPlayerNode.scheduleFile(audioFile!, at: nil) {
+            
+            print("scheduleFile completion")
+            var delayInSeconds: Double = 0
+            
+            if let lastRenderTime = self.audioPlayerNode.lastRenderTime, let playerTime = self.audioPlayerNode.playerTime(forNodeTime: lastRenderTime) {
+                
+                delayInSeconds = Double((audioFile!.length) - playerTime.sampleTime) / Double((audioFile!.processingFormat.sampleRate))
+                
+                print("delayInSeconds: \(delayInSeconds)")
+            }
         }
         
-        audioPlayerNode.scheduleFile(audioFile, at: nil) {
-            
+        do {
+            // play the recording!
+            try audioEngine.start()
+            audioPlayerNode.play()
+        } catch {
+            throw Errors.AudioEngineFailure("Failure at AudioEnginer.start()")
         }
+
+        print("playAudio..made it past do/catch for try audioEngine start")
     }
     
     /*
@@ -128,6 +175,21 @@ class AudioPlaybackManager: NSObject, AVAudioPlayerDelegate {
         }
     }
     */
+    
+    // helper function, stop audio playback
+    func stopAudioPlayback() {
+        
+        // verify audioPlayerNode, stop
+        if let audioPlayerNode = audioPlayerNode {
+            audioPlayerNode.stop()
+        }
+        
+        // verify audioEngine, stop and reset
+        if let audioEngine = audioEngine {
+            audioEngine.stop()
+            audioEngine.reset()
+        }
+    }
     
     func stopAudio() {
         
@@ -224,7 +286,4 @@ class AudioPlaybackManager: NSObject, AVAudioPlayerDelegate {
         audioPlayerNode.play()
     }
 */
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        print("audioPlayerDidFinishPlaying")
-    }
 }

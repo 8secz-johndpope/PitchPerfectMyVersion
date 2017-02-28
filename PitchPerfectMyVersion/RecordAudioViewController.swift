@@ -73,10 +73,27 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
         
         // get session
         let session = AVAudioSession.sharedInstance()
-        try! session.setCategory(AVAudioSessionCategoryPlayAndRecord, with:AVAudioSessionCategoryOptions.defaultToSpeaker)
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            
+            do {
+                try session.setActive(true)
+            }
+            catch {
+                print("failed setting active")
+            }
+        } catch {
+            print("bad session.setCategory")
+            return
+        }
         
+        do {
+            try audioRecorder = AVAudioRecorder(url: filePath!, settings: [:])
+        } catch {
+            print("bad audioRecorder try")
+            return
+        }
         // create audioRecorder, configure, then start recording
-        try! audioRecorder = AVAudioRecorder(url: filePath!, settings: [:])
         audioRecorder.delegate = self
         audioRecorder.isMeteringEnabled = true
         audioRecorder.prepareToRecord()
@@ -92,8 +109,10 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     @IBAction func playbackButtonPressed(_ sender: Any) {
+        
         if let url = audioFileURL {
-            performSegue(withIdentifier: "PlayAudioSegue", sender: url)
+            let playbackManager = AudioPlaybackManager()
+            try! playbackManager.playAudio(url: audioRecorder.url, effects: AudioEffects.echo)
         }
     }
     
@@ -107,6 +126,41 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
         
         // stop recording and update label message and button state
         audioRecorder.stop()
+        // deactivate session
+        let audioSession = AVAudioSession.sharedInstance()
+        
+        // test for throw when setting session active state
+        do {
+            try audioSession.setActive(false)
+            print("able set set session inactive")
+        }
+        catch {
+            //createAlert(AlertState.BadSession)
+            print("fail setting audioSession active = false")
+        }
+        
+        /*
+        // function to handle the ceasing of recording
+        func ceaseRecording() {
+            
+            // stop/remove time from runloop
+            timer.invalidate()
+            
+            // stop recording
+            audioRecorder.stop()
+            
+            // deactivate session
+            let audioSession = AVAudioSession.sharedInstance()
+            
+            // test for throw when setting session active state
+            do {
+                try audioSession.setActive(false)
+            }
+            catch {
+                createAlert(AlertState.BadSession)
+            }
+        }
+ */
         recordingStatusLabel.text = "Record Audio"
         startRecordingButton.isEnabled = true
         stopRecordingButton.isEnabled = false
