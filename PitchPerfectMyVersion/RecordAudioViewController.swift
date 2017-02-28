@@ -15,7 +15,7 @@
 import UIKit
 import AVFoundation
 
-class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
+class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate, AudioPlaybackManagerDelegate {
 
     // minimum time for a valid recording, in tenth's of a second
     let MINIMUM_ELAPSED_RECORD_TIME = 5
@@ -104,6 +104,7 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
         
         if let url = audioFileURL {
             let playbackManager = AudioPlaybackManager()
+            playbackManager.delegate = self
             try! playbackManager.playAudio(url: url, effects: [AudioEffects.echo])
             startElapsedTimer()
         }
@@ -127,9 +128,7 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
         } catch {
         }
         
-        recordingStatusLabel.text = "Record Audio"
-        startRecordingButton.isEnabled = true
-        stopRecordingButton.isEnabled = false
+        configureDisplayState(.ready)
     }
     
     // delegate function. Called by audioRecorder when recording is complete
@@ -232,5 +231,9 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
         }
         
         elapsedTimeLabel.text = "0'" + timeString
+    }
+    
+    func audioPayerDidFinishPlaying(sender: AudioPlaybackManager) {
+        timer.invalidate()
     }
 }

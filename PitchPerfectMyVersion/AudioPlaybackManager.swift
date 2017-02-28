@@ -9,6 +9,7 @@
 import Foundation
 import AVFoundation
 
+// enum for audio effects
 enum AudioEffects {
     case speed(Float)
     case pitch(Float)
@@ -17,53 +18,49 @@ enum AudioEffects {
     case dry
 }
 
+// protocol. Used to inform end of playing in delegate
 protocol AudioPlaybackManagerDelegate {
-    func audioFileSetupFailure(sender: AudioPlaybackManager)
-    func audioPayerFinishedPlaying(sender: AudioPlaybackManager)
+    func audioPayerDidFinishPlaying(sender: AudioPlaybackManager)
 }
 
 class AudioPlaybackManager: NSObject {
     
+    // delegate
     var delegate: AudioPlaybackManagerDelegate!
+    
+    // AVAudio
     var audioEngine:AVAudioEngine!
     var audioPlayerNode: AVAudioPlayerNode!
     
-    var playbackTimer: Timer!
-    
+    // errors enum
     enum Errors: Swift.Error {
         case AudioFileSetupFailure(String)
         case AudioEngineFailure(String)
     }
     
-    
-    func playAudio(url: URL?, effects: [AudioEffects])  throws {
+    // function to play audiofile url, with effects
+    func playAudio(url: URL?, effects: [AudioEffects]) throws {
         
         // initialize (recording) audio file
-        var audioFile: AVAudioFile?
+        var file: AVAudioFile?
         do {
-            print(url!)
-            audioFile = try AVAudioFile(forReading: url! as URL)
+            file = try AVAudioFile(forReading: url! as URL)
         } catch {
             throw Errors.AudioFileSetupFailure("Error retrieving file from URL")
         }
         
-        guard audioFile != nil else {
+        // verify good audio file
+        guard let audioFile = file else {
             throw Errors.AudioFileSetupFailure("Unable to create valid audio file")
         }
         
         // initialize audio engine components
         audioEngine = AVAudioEngine()
-        
-        // node for playing audio
         audioPlayerNode = AVAudioPlayerNode()
-        
-        stopAudioPlayback()
-        
         audioEngine.attach(audioPlayerNode)
 
         // create array of audio nodes..first pull out speed and pitch
-        // will ultimated be connected in audioEngine in the order of the array
-        // want to ensure echo and reverb are last in nodes array
+        // ..want to ensure echo and reverb are last in nodes array, respectively
         var nodesArray:[AVAudioNode] = [audioPlayerNode]
         
         // first pull out speed and pitch
@@ -84,7 +81,7 @@ class AudioPlaybackManager: NSObject {
             }
         }
         
-        // next pull out echo
+        // next, pull out echo
         for effect in effects {
             switch effect {
             case .echo:
@@ -97,7 +94,7 @@ class AudioPlaybackManager: NSObject {
             }
         }
         
-        // finally reverb
+        // ..and lastly, reverb
         for effect in effects {
             switch effect {
             case .reverb:
@@ -113,21 +110,19 @@ class AudioPlaybackManager: NSObject {
 
         // place output node at end
         nodesArray.append((audioEngine.outputNode))
-
         
-        // now connect the nodes
-        //mainMixer.outputFormat(forBus: 0)
+        // connect the nodes
         let mainMixer = audioEngine.mainMixerNode
         for i in 0..<(nodesArray.count - 1) {
             audioEngine.connect(nodesArray[i], to: nodesArray[i + 1], format: mainMixer.outputFormat(forBus: 0))
         }
 
-        //audioPlayerNode.stop()
-        audioPlayerNode.scheduleFile(audioFile!, at: nil) {
+        // schedule playback
+        audioPlayerNode.scheduleFile(audioFile, at: nil) {
 
-            // place UI update on main thread
+            // main thread.
             OperationQueue.main.addOperation() {
-                self.stopAudioPlayback()
+                self.delegate.audioPayerDidFinishPlaying(sender: self)
             }
         }
         do {
