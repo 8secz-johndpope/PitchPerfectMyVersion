@@ -5,6 +5,12 @@
 //  Created by Online Training on 2/26/17.
 //  Copyright © 2017 Mitch Salcido. All rights reserved.
 //
+/*
+ About AudioPlaybackManager.swift:
+ Provides functionality to playback an audio file (URL). Also, includes a enum for defining
+ audio effects that can be applied, and also a protocol/delegate definition that allows the delegate
+ to be informed when the audio has finished playing
+*/
 
 import Foundation
 import AVFoundation
@@ -29,8 +35,8 @@ class AudioPlaybackManager: NSObject {
     var delegate: AudioPlaybackManagerDelegate!
     
     // AVAudio
-    var audioEngine:AVAudioEngine!
-    var audioPlayerNode: AVAudioPlayerNode!
+    fileprivate var audioEngine:AVAudioEngine!
+    fileprivate var audioPlayerNode: AVAudioPlayerNode!
     
     // errors enum
     enum Errors: Swift.Error {
@@ -122,9 +128,17 @@ class AudioPlaybackManager: NSObject {
 
             // main thread.
             OperationQueue.main.addOperation() {
+                /*
+                 ..need to research further...
+                 Audio won't playback unless this is added in the completion
+                 */
                 self.delegate.audioPayerDidFinishPlaying(sender: self)
+                
+                // ..this also works
+                //self.stopAudioPlayback()
             }
         }
+        
         do {
             // play the recording!
             try audioEngine.start()
@@ -134,7 +148,7 @@ class AudioPlaybackManager: NSObject {
         }
     }
     
-    // helper function, stop audio playback
+    // function, stop audio playback
     func stopAudioPlayback() {
         
         // verify audioPlayerNode, stop
