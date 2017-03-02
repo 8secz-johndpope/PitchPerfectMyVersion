@@ -15,6 +15,7 @@ protocol AudioRecorderManagerDelegate {
 
 class AudioRecorderManager: NSObject, AVAudioRecorderDelegate {
     
+    var delegate: AudioRecorderManagerDelegate!
     var audioRecorder: AVAudioRecorder!
     
     // errors enum
@@ -33,7 +34,7 @@ class AudioRecorderManager: NSObject, AVAudioRecorderDelegate {
         do {
             try audioRecorder = AVAudioRecorder(url: filePath!, settings: [:])
         } catch {
-            throw Errors.AudioRecorderSetupFailure("Unable to create audioRecorder")
+            throw Errors.AudioRecorderSetupFailure("Unable to initialize audio recorder")
         }
         
         // create audioRecorder, configure, then start recording
@@ -43,7 +44,24 @@ class AudioRecorderManager: NSObject, AVAudioRecorderDelegate {
         audioRecorder.record()
     }
     
+    func stopRecording() {
+    
+        guard audioRecorder != nil else {
+            return
+        }
+        
+        audioRecorder.stop()
+    }
+    
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        print("audioRecorderDidFinishRecording")
+        
+        if flag {
+            delegate.audioRecorderFinishedRecording(sender: self,
+                                                    url: recorder.url)
+        }
+        else {
+            delegate.audioRecorderFinishedRecording(sender: self,
+                                                    url: nil)
+        }
     }
 }
