@@ -15,7 +15,7 @@
 import UIKit
 import AVFoundation
 
-class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate, AudioPlaybackManagerDelegate {
+class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate, AudioRecorderManagerDelegate {
 
     // minimum time for a valid recording, in tenth's of a second
     let MINIMUM_ELAPSED_RECORD_TIME = 5
@@ -29,8 +29,8 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate, Audi
     @IBOutlet weak var playbackButton: UIButton!
     @IBOutlet weak var playbackLabel: UILabel!
     
-    // ref to audioRecorder
-    var audioRecorder: AVAudioRecorder!
+    // ref to audioRecorderManager
+    var audioRecorderManager: AudioRecorderManager!
     
     // ref to timer. Used to track elapsed record time and update audio level
     var timer: Timer!
@@ -61,15 +61,7 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate, Audi
     @IBAction func startRecordingButtonPressed(_ sender: UIButton) {
         
         // prepare for recording, update label message and button enable state
-        recordingStatusLabel.text = "Recording in Progress"
-        stopRecordingButton.isEnabled = true
-        startRecordingButton.isEnabled = false
-        
-        // get path save recorded audio
-        let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
-        let recordingName = "recordedVoice.wav"
-        let pathArray = [dirPath, recordingName]
-        let filePath = URL(string: pathArray.joined(separator: "/"))
+        configureDisplayState(.recording)
         
         // get session
         let session = AVAudioSession.sharedInstance()
@@ -86,17 +78,10 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate, Audi
             return
         }
         
-        do {
-            try audioRecorder = AVAudioRecorder(url: filePath!, settings: [:])
-        } catch {
-            return
-        }
+        audioRecorderManager = AudioRecorderManager()
+        audioRecorderManager.delegate = self
+        try! audioRecorderManager.recordAudio()
         
-        // create audioRecorder, configure, then start recording
-        audioRecorder.delegate = self
-        audioRecorder.isMeteringEnabled = true
-        audioRecorder.prepareToRecord()
-        audioRecorder.record()
         startElapsedTimer()
     }
     
@@ -107,53 +92,6 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate, Audi
             playbackManager.delegate = self
             try! playbackManager.playAudio(url: url, effects: [AudioEffects.echo])
             startElapsedTimer()
-        }
-    }
-    
-    @IBAction func stopRecordingButtonPressed(_ sender: UIButton) {
-        
-        timer.invalidate()
-        if elapsedTime <= MINIMUM_ELAPSED_RECORD_TIME {
-            elapsedTime = 0
-            updateElapsedTimeLabel()
-        }
-        
-        // stop recording and update label message and button state
-        audioRecorder.stop()
-        
-        // deactivate session
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setActive(false)
-        } catch {
-        }
-        
-        configureDisplayState(.ready)
-    }
-    
-    // delegate function. Called by audioRecorder when recording is complete
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        
-        // test for success, configure display buttons/labels for playback
-        if flag {
-            
-            audioFileURL = recorder.url
-            configureDisplayState(.ready)
-        }
-        else {
-            audioFileURL = nil
-            elapsedTime = 0
-            configureDisplayState(.problem)
-            
-            let alert = UIAlertController(title: Alerts.ErrorDuringRecordingTitle,
-                                          message: Alerts.ErrorDuringRecordingMessage,
-                                          preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "Cancel",
-                                             style: .cancel,
-                                             handler: nil)
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
         }
     }
     
@@ -235,5 +173,12 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate, Audi
     
     func audioPayerDidFinishPlaying(sender: AudioPlaybackManager) {
         timer.invalidate()
+    }
+    
+    func audioRecorderFinishedRecording(sender: AudioRecorderManager, url: URL?) {
+        
+        audioFileURL = url
+        timer.invalidate()
+        configureDisplayState(.ready)
     }
 }
