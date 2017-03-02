@@ -22,7 +22,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     // outlets to buttons and labels
     @IBOutlet weak var startRecordingButton: UIButton!
     @IBOutlet weak var recordingStatusLabel: UILabel!
-    @IBOutlet weak var stopRecordingButton: UIButton!
+    @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var elapsedTimeLabel: UILabel!
     @IBOutlet weak var audioLevelView: UIView!
     @IBOutlet weak var playbackButton: UIButton!
@@ -30,6 +30,9 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     
     // ref to audioRecorderManager
     var audioRecorderManager: AudioRecorderManager!
+    
+    // ref to audioPlaybackManager
+    var audioPlaybackManager: AudioPlaybackManager!
     
     // ref to timer. Used to track elapsed record time and update audio level
     var timer: Timer!
@@ -77,53 +80,59 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         catch {
         }
         
+        // create manager, set delegate
         audioRecorderManager = AudioRecorderManager()
         audioRecorderManager.delegate = self
         do {
-            
+            // begin recording, also start elapsed timer
             try audioRecorderManager.recordAudio()
+            startElapsedTimer()
         }
         catch AudioRecorderManager.Errors.AudioRecorderSetupFailure(let val) {
             print(val)
         }
         catch {
         }
-        
-        startElapsedTimer()
     }
     
-    @IBAction func stopRecordingButtonPressed(_ sender: UIButton) {
+    @IBAction func stopButtonPressed(_ sender: UIButton) {
         
-        // stop recording and update label message and button state
-        audioRecorderManager.stopRecording()
-        
-        // invalidate timer, test for valid recording time
-        timer.invalidate()
-        if elapsedTime <= MINIMUM_ELAPSED_RECORD_TIME {
-            elapsedTime = 0
-            audioFileURL = nil
-            updateElapsedTimeLabel()
+        if let audioPlaybackManager = audioPlaybackManager {
+         
+            audioPlaybackManager.stopAudioPlayback()
         }
-        
-        // deactivate session
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setActive(false)
+        else if let audioRecorderManager = audioRecorderManager {
+         
+            // stop recording and update label message and button state
+            audioRecorderManager.stopRecording()
+            
+            // invalidate timer, test for valid recording time
+            timer.invalidate()
+            if elapsedTime <= MINIMUM_ELAPSED_RECORD_TIME {
+                elapsedTime = 0
+                audioFileURL = nil
+                updateElapsedTimeLabel()
+            }
+            
+            // deactivate session
+            let audioSession = AVAudioSession.sharedInstance()
+            do {
+                try audioSession.setActive(false)
+            }
+            catch {
+            }
         }
-        catch {
-        }
-        
-        // update button/label state
-        configureDisplayState(.ready)
     }
     
     @IBAction func playbackButtonPressed(_ sender: Any) {
         
         if let url = audioFileURL {
-            let playbackManager = AudioPlaybackManager()
-            playbackManager.delegate = self
-            try! playbackManager.playAudio(url: url, effects: [AudioEffects.echo])
+            audioPlaybackManager = AudioPlaybackManager()
+            audioPlaybackManager.delegate = self
+            try! audioPlaybackManager.playAudio(url: url, effects: [AudioEffects.echo])
             startElapsedTimer()
+            
+            configureDisplayState(.playback)
         }
     }
     
@@ -145,7 +154,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         switch state {
         case .ready:
             startRecordingButton.isEnabled = true
-            stopRecordingButton.isEnabled = false
+            stopButton.isEnabled = false
             recordingStatusLabel.text = "Press to Record"
             if elapsedTime >= MINIMUM_ELAPSED_RECORD_TIME, audioFileURL != nil {
                 playbackLabel.alpha = 1.0
@@ -157,19 +166,19 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             }
         case .recording:
             startRecordingButton.isEnabled = false
-            stopRecordingButton.isEnabled = true
+            stopButton.isEnabled = true
             recordingStatusLabel.text = "Recording in Progress"
             playbackLabel.alpha = 0.5
             playbackButton.isEnabled = false
         case .playback:
             startRecordingButton.isEnabled = false
-            stopRecordingButton.isEnabled = true
+            stopButton.isEnabled = true
             recordingStatusLabel.text = "Playing Audio"
             playbackLabel.alpha = 0.5
             playbackButton.isEnabled = false
         case .problem:
             startRecordingButton.isEnabled = false
-            stopRecordingButton.isEnabled = false
+            stopButton.isEnabled = false
             recordingStatusLabel.text = "Error recording"
             playbackLabel.alpha = 0.5
             playbackButton.isEnabled = false
@@ -204,13 +213,17 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     }
     
     func audioPayerDidFinishPlaying(sender: AudioPlaybackManager) {
+        
         timer.invalidate()
+        audioPlaybackManager = nil
+        configureDisplayState(.ready)
     }
     
     func audioRecorderFinishedRecording(sender: AudioRecorderManager, url: URL?) {
         
         audioFileURL = url
         timer.invalidate()
+        audioRecorderManager = nil
         configureDisplayState(.ready)
     }
 }

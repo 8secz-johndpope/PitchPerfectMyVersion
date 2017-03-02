@@ -29,7 +29,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="168"/>
                                         <state key="normal" image="Record"/>
                                         <connections>
-                                            <action selector="startRecordingButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hid-BX-ROP"/>
+                                            <action selector="startRecordingButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5af-Go-Km8"/>
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="aRV-u0-mls">
@@ -45,7 +45,7 @@
                                                 <rect key="frame" x="0.0" y="56" width="288" height="112"/>
                                                 <state key="normal" image="Stop"/>
                                                 <connections>
-                                                    <action selector="stopRecordingButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tnS-el-4t8"/>
+                                                    <action selector="stopButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sz9-PZ-ged"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -116,8 +116,8 @@
                         <outlet property="playbackButton" destination="8tk-TH-3hm" id="hm7-Bh-H2m"/>
                         <outlet property="playbackLabel" destination="VDs-7K-9vo" id="Utg-eB-UYJ"/>
                         <outlet property="recordingStatusLabel" destination="gb0-tr-WkV" id="VtF-yO-qhY"/>
-                        <outlet property="startRecordingButton" destination="Rqn-aq-rHu" id="Ueu-Y8-zfa"/>
-                        <outlet property="stopRecordingButton" destination="TpM-jE-6Zm" id="rF6-tf-F0l"/>
+                        <outlet property="startRecordingButton" destination="Rqn-aq-rHu" id="cfJ-5O-qTK"/>
+                        <outlet property="stopButton" destination="TpM-jE-6Zm" id="RNN-VS-jtL"/>
                         <segue destination="xcf-6B-TX8" kind="show" identifier="PlayAudioSegue" id="El1-n5-f3N"/>
                     </connections>
                 </viewController>
