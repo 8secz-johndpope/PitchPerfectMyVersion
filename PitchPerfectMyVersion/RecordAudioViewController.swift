@@ -8,8 +8,7 @@
 /*
  About RecordAudioViewController:
  This class provides functionaly to record audio. Handles "Record" and "Stop" buttons to initiate and
- end recording. If recording is successful, the initiates a segue to PlayAudioVC which is triggered
- is the AVAudioRecorderDelegate function "audioRecorderDidFinishRecording"
+ end recording.
  */
 
 import UIKit
@@ -39,14 +38,13 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     // ref to audio url
     var audioFileURL: URL?
     
+    // enum for button/label states
     enum RecordState {
         case ready, recording, playback, problem
     }
     
-    struct Alerts {
-        static let ErrorDuringRecordingTitle = "Error during recording"
-        static let ErrorDuringRecordingMessage = "Unable to successfully complete recording"
-    }
+    // for error messages
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +53,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     
+        // set buttons/labels to ready to record state
         configureDisplayState(.ready)
     }
     
@@ -66,23 +65,56 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         // get session
         let session = AVAudioSession.sharedInstance()
         do {
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
             
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
             do {
+                
                 try session.setActive(true)
             }
             catch {
-                return
             }
-        } catch {
-            return
+        }
+        catch {
         }
         
         audioRecorderManager = AudioRecorderManager()
         audioRecorderManager.delegate = self
-        try! audioRecorderManager.recordAudio()
+        do {
+            
+            try audioRecorderManager.recordAudio()
+        }
+        catch AudioRecorderManager.Errors.AudioRecorderSetupFailure(let val) {
+            print(val)
+        }
+        catch {
+        }
         
         startElapsedTimer()
+    }
+    
+    @IBAction func stopRecordingButtonPressed(_ sender: UIButton) {
+        
+        // stop recording and update label message and button state
+        audioRecorderManager.stopRecording()
+        
+        // invalidate timer, test for valid recording time
+        timer.invalidate()
+        if elapsedTime <= MINIMUM_ELAPSED_RECORD_TIME {
+            elapsedTime = 0
+            audioFileURL = nil
+            updateElapsedTimeLabel()
+        }
+        
+        // deactivate session
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(false)
+        }
+        catch {
+        }
+        
+        // update button/label state
+        configureDisplayState(.ready)
     }
     
     @IBAction func playbackButtonPressed(_ sender: Any) {
