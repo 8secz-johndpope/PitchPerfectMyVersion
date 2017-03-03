@@ -60,6 +60,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         configureDisplayState(.ready)
     }
     
+    // function to start recording
     @IBAction func startRecordingButtonPressed(_ sender: UIButton) {
         
         // prepare for recording, update label message and button enable state
@@ -83,6 +84,8 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         // create manager, set delegate
         audioRecorderManager = AudioRecorderManager()
         audioRecorderManager.delegate = self
+        
+        // start to record, start elapsed timer
         do {
             // begin recording, also start elapsed timer
             try audioRecorderManager.recordAudio()
@@ -95,10 +98,13 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         }
     }
     
+    // function to stop recording
     @IBAction func stopButtonPressed(_ sender: UIButton) {
         
+        // test for playback or recording
         if let audioPlaybackManager = audioPlaybackManager {
-         
+            
+            // currently playback. Stop audio playback
             audioPlaybackManager.stopAudioPlayback()
         }
         else if let audioRecorderManager = audioRecorderManager {
@@ -124,15 +130,23 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         }
     }
     
+    // playback recorded audio
     @IBAction func playbackButtonPressed(_ sender: Any) {
         
+        // tes for valid url
         if let url = audioFileURL {
             audioPlaybackManager = AudioPlaybackManager()
             audioPlaybackManager.delegate = self
-            try! audioPlaybackManager.playAudio(url: url, effects: [AudioEffects.echo])
-            startElapsedTimer()
             
-            configureDisplayState(.playback)
+            // playback
+            do {
+                
+                try audioPlaybackManager.playAudio(url: url, effects: [AudioEffects.echo])
+                startElapsedTimer()
+                configureDisplayState(.playback)
+            }
+            catch {
+            }
         }
     }
     
@@ -186,6 +200,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         }
     }
     
+    // function to start elapsed timer
     func startElapsedTimer() {
         
         elapsedTime = 0
@@ -197,6 +212,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         }
     }
     
+    // helper function to convert elapsed timer into text string and update label
     func updateElapsedTimeLabel() {
         
         // form elapsed time string..elapsed time is tenth's of a second
@@ -212,6 +228,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         elapsedTimeLabel.text = "0'" + timeString
     }
     
+    // delegate function for AudioPlaybackManagerDelegate
     func audioPayerDidFinishPlaying(sender: AudioPlaybackManager) {
         
         timer.invalidate()
@@ -219,6 +236,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         configureDisplayState(.ready)
     }
     
+    // delegate function for AudioRecerderManagerDelegate
     func audioRecorderFinishedRecording(sender: AudioRecorderManager, url: URL?) {
         
         audioFileURL = url
