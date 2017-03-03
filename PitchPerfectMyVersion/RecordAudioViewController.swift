@@ -47,7 +47,11 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     }
     
     // for error messages
-
+    enum Errors: Swift.Error {
+        case SessionError(String)
+        case RecorderError(String)
+        case PlaybackError(String)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +66,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     
     // function to start recording
     @IBAction func startRecordingButtonPressed(_ sender: UIButton) {
-        
+            
         // prepare for recording, update label message and button enable state
         configureDisplayState(.recording)
         
@@ -243,5 +247,44 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         timer.invalidate()
         audioRecorderManager = nil
         configureDisplayState(.ready)
+    }
+    
+    // func to create/show alert..from error
+    func showAlert(_ error: Errors) {
+        
+        // get a title and message string from the error enum
+        var title: String!
+        var message: String!
+        switch error {
+        case .PlaybackError(let value):
+            title = "Audio playback error"
+            message = value
+        case .RecorderError(let value):
+            title = "Audio recording error"
+            message = value
+        case .SessionError(let value):
+            title = "Audio session error"
+            message = value
+        }
+        
+        // create alert and cancel action
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                              style: .cancel) {
+                 
+                                (action) in
+                                // set buttons/labels back to ready condition after alert is dismissed
+                                self.audioFileURL = nil
+                                self.audioPlaybackManager = nil
+                                self.audioRecorderManager = nil
+                                self.configureDisplayState(.ready)
+        }
+        
+        // add action, show
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
     }
 }
