@@ -7,8 +7,8 @@
 //
 /*
  About RecordAudioViewController:
- This class provides functionaly to record audio. Handles "Record" and "Stop" buttons to initiate and
- end recording.
+ Provides functionaly to record and play audio. Handles "Record" and "Stop" buttons to initiate and
+ end recording/playback
  */
 
 import UIKit
@@ -28,14 +28,12 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     @IBOutlet weak var playbackButton: UIButton!
     @IBOutlet weak var playbackLabel: UILabel!
     
-    // ref to audioRecorderManager
-    var audioRecorderManager: AudioRecorderManager!
-    
-    // ref to audioPlaybackManager
-    var audioPlaybackManager: AudioPlaybackManager!
+    // ref to audioRecorderManager and audioPlaybackManager
+    var audioRecorderManager: AudioRecorderManager?
+    var audioPlaybackManager: AudioPlaybackManager?
     
     // ref to timer. Used to track elapsed record time and update audio level
-    var timer: Timer!
+    var timer: Timer?
     var elapsedTime: Int = 0
     
     // ref to audio url
@@ -66,9 +64,6 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     
     // function to start recording
     @IBAction func startRecordingButtonPressed(_ sender: UIButton) {
-            
-        // prepare for recording, update label message and button enable state
-        configureDisplayState(.recording)
         
         // get session
         let session = AVAudioSession.sharedInstance()
@@ -76,29 +71,32 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             
             try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
             do {
-                
                 try session.setActive(true)
             }
             catch {
+                showAlert(Errors.SessionError("Unable to set to active"))
             }
         }
         catch {
+            showAlert(Errors.SessionError("Unable to set play/record category"))
         }
         
         // create manager, set delegate
         audioRecorderManager = AudioRecorderManager()
-        audioRecorderManager.delegate = self
+        audioRecorderManager?.delegate = self
         
         // start to record, start elapsed timer
         do {
             // begin recording, also start elapsed timer
-            try audioRecorderManager.recordAudio()
+            try audioRecorderManager?.recordAudio()
+            configureDisplayState(.recording)
             startElapsedTimer()
         }
-        catch AudioRecorderManager.Errors.AudioRecorderSetupFailure(let val) {
-            print(val)
+        catch AudioRecorderManager.Errors.AudioRecorderSetupFailure(let value) {
+            showAlert(Errors.RecorderError(value))
         }
         catch {
+            showAlert(Errors.RecorderError("Unknown record audio error"))
         }
     }
     
@@ -117,7 +115,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             audioRecorderManager.stopRecording()
             
             // invalidate timer, test for valid recording time
-            timer.invalidate()
+            timer?.invalidate()
             if elapsedTime <= MINIMUM_ELAPSED_RECORD_TIME {
                 elapsedTime = 0
                 audioFileURL = nil
@@ -130,6 +128,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
                 try audioSession.setActive(false)
             }
             catch {
+                showAlert(Errors.SessionError("Unable to set to inactive"))
             }
         }
     }
@@ -140,16 +139,23 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         // tes for valid url
         if let url = audioFileURL {
             audioPlaybackManager = AudioPlaybackManager()
-            audioPlaybackManager.delegate = self
+            audioPlaybackManager?.delegate = self
             
             // playback
             do {
                 
-                try audioPlaybackManager.playAudio(url: url, effects: [AudioEffects.echo])
+                try audioPlaybackManager?.playAudio(url: url, effects: [AudioEffects.echo])
                 startElapsedTimer()
                 configureDisplayState(.playback)
             }
+            catch AudioPlaybackManager.Errors.AudioFileSetupFailure(let value) {
+                showAlert(Errors.PlaybackError(value))
+            }
+            catch AudioPlaybackManager.Errors.AudioEngineFailure(let value) {
+                showAlert(Errors.PlaybackError(value))
+            }
             catch {
+                showAlert(Errors.PlaybackError("Unknown audio playback error"))
             }
         }
     }
@@ -235,7 +241,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     // delegate function for AudioPlaybackManagerDelegate
     func audioPayerDidFinishPlaying(sender: AudioPlaybackManager) {
         
-        timer.invalidate()
+        timer?.invalidate()
         audioPlaybackManager = nil
         configureDisplayState(.ready)
     }
@@ -244,7 +250,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     func audioRecorderFinishedRecording(sender: AudioRecorderManager, url: URL?) {
         
         audioFileURL = url
-        timer.invalidate()
+        timer?.invalidate()
         audioRecorderManager = nil
         configureDisplayState(.ready)
     }
