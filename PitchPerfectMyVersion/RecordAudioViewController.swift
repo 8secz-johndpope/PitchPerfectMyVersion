@@ -28,6 +28,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     @IBOutlet weak var playbackButton: UIButton!
     @IBOutlet weak var playbackLabel: UILabel!
     @IBOutlet weak var audioEffectButton: UIButton!
+    @IBOutlet weak var playAudioLabel: UILabel!
 
     // ref to audioRecorderManager and audioPlaybackManager
     var audioRecorderManager: AudioRecorderManager?
@@ -196,22 +197,24 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         case .ready:
             startRecordingButton.isEnabled = true
             stopButton.isEnabled = false
+            audioEffectButton.isEnabled = true
             recordingStatusLabel.text = "Press to Record"
             if elapsedTime >= MINIMUM_ELAPSED_RECORD_TIME, let _ = audioFileURL {
                 playbackLabel.alpha = 1.0
+                playAudioLabel.alpha = 1.0
                 playbackButton.isEnabled = true
-                audioEffectButton.isEnabled = true
             }
             else {
                 playbackLabel.alpha = 0.5
+                playAudioLabel.alpha = 0.5
                 playbackButton.isEnabled = false
-                audioEffectButton.isEnabled = false
             }
         case .recording:
             startRecordingButton.isEnabled = false
             stopButton.isEnabled = true
             recordingStatusLabel.text = "Recording in Progress"
             playbackLabel.alpha = 0.5
+            playAudioLabel.alpha = 0.5
             playbackButton.isEnabled = false
             audioEffectButton.isEnabled = false
         case .playback:
@@ -219,6 +222,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             stopButton.isEnabled = true
             recordingStatusLabel.text = "Playing Audio"
             playbackLabel.alpha = 0.5
+            playAudioLabel.alpha = 0.5
             playbackButton.isEnabled = false
             audioEffectButton.isEnabled = false
         case .problem:
@@ -226,6 +230,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             stopButton.isEnabled = false
             recordingStatusLabel.text = "Error recording"
             playbackLabel.alpha = 0.5
+            playAudioLabel.alpha = 0.5
             playbackButton.isEnabled = false
             audioEffectButton.isEnabled = false
             break
