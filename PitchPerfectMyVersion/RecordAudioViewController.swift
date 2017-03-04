@@ -200,10 +200,12 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             if elapsedTime >= MINIMUM_ELAPSED_RECORD_TIME, let _ = audioFileURL {
                 playbackLabel.alpha = 1.0
                 playbackButton.isEnabled = true
+                audioEffectButton.isEnabled = true
             }
             else {
                 playbackLabel.alpha = 0.5
                 playbackButton.isEnabled = false
+                audioEffectButton.isEnabled = false
             }
         case .recording:
             startRecordingButton.isEnabled = false
@@ -211,18 +213,21 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             recordingStatusLabel.text = "Recording in Progress"
             playbackLabel.alpha = 0.5
             playbackButton.isEnabled = false
+            audioEffectButton.isEnabled = false
         case .playback:
             startRecordingButton.isEnabled = false
             stopButton.isEnabled = true
             recordingStatusLabel.text = "Playing Audio"
             playbackLabel.alpha = 0.5
             playbackButton.isEnabled = false
+            audioEffectButton.isEnabled = false
         case .problem:
             startRecordingButton.isEnabled = false
             stopButton.isEnabled = false
             recordingStatusLabel.text = "Error recording"
             playbackLabel.alpha = 0.5
             playbackButton.isEnabled = false
+            audioEffectButton.isEnabled = false
             break
         }
     }
