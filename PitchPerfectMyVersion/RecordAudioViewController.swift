@@ -40,6 +40,9 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     // ref to audio url
     var audioFileURL: URL?
     
+    // ref to current playback audio effect
+    var effect = AudioEffects.dry
+    
     // enum for button/label states
     enum RecordState {
         case ready, recording, playback, problem
@@ -61,6 +64,31 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     
         // set buttons/labels to ready to record state
         configureDisplayState(.ready)
+        
+        var image: UIImage!
+        switch effect {
+        case .dry:
+            image = UIImage(named: "Stop")
+        case .echo:
+            image = UIImage(named: "Echo")
+        case .reverb:
+            image = UIImage(named: "Reverb")
+        case .rate(let value):
+            if value > 1.0 {
+                image = UIImage(named: "Fast")
+            }
+            else {
+                image = UIImage(named: "Slow")
+            }
+        case .pitch(let value):
+            if value > 0.0 {
+                image = UIImage(named: "HighPitch")
+            }
+            else {
+                image = UIImage(named: "LowPitch")
+            }
+        }
+        audioEffectButton.setImage(image, for: .normal)
     }
     
     // function to start recording
@@ -145,7 +173,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             // playback
             do {
                 
-                try audioPlaybackManager?.playAudio(url: url, effects: [AudioEffects.pitch(1200.0)])
+                try audioPlaybackManager?.playAudio(url: url, effects: [effect])
                 startElapsedTimer()
                 configureDisplayState(.playback)
             }
@@ -290,7 +318,9 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "AudioEffectsSegue" {
-            print("AudioEffectsSegue")
+            
+            let controller = segue.destination as! AudioEffectsViewController
+            controller.recordAudioViewController = self
         }
     }
 }
