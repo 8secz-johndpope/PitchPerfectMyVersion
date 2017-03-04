@@ -27,7 +27,8 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     @IBOutlet weak var audioLevelView: UIView!
     @IBOutlet weak var playbackButton: UIButton!
     @IBOutlet weak var playbackLabel: UILabel!
-    
+    @IBOutlet weak var audioEffectButton: UIButton!
+
     // ref to audioRecorderManager and audioPlaybackManager
     var audioRecorderManager: AudioRecorderManager?
     var audioPlaybackManager: AudioPlaybackManager?
@@ -160,18 +161,6 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        // prepare for segue to PlayAudioVC
-        if segue.identifier == "PlayAudioSegue" {
-            
-            // get ref to PlayAudioVC, set url
-            let controller = segue.destination as! PlayAudioViewController
-            let audioRecorderURL = sender as! URL
-            controller.audioRecorderURL = audioRecorderURL
-        }
-    }
-    
     // helper to configure labels/button states
     func configureDisplayState(_ state: RecordState) {
         
@@ -180,7 +169,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             startRecordingButton.isEnabled = true
             stopButton.isEnabled = false
             recordingStatusLabel.text = "Press to Record"
-            if elapsedTime >= MINIMUM_ELAPSED_RECORD_TIME, audioFileURL != nil {
+            if elapsedTime >= MINIMUM_ELAPSED_RECORD_TIME, let _ = audioFileURL {
                 playbackLabel.alpha = 1.0
                 playbackButton.isEnabled = true
             }
@@ -292,5 +281,16 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         // add action, show
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func audioEffectButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "AudioEffectsSegue", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "AudioEffectsSegue" {
+            print("AudioEffectsSegue")
+        }
     }
 }
