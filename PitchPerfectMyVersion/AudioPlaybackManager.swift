@@ -17,8 +17,8 @@ import AVFoundation
 
 // enum for audio effects
 enum AudioEffects {
-    case speed(Float)
-    case pitch(Float)
+    case rate(Float)    // playback rate, from 1/32 to 32
+    case pitch(Float)   // in "cents" (log): octave = 1200 cents, semitome = 100 cents
     case echo
     case reverb
     case dry
@@ -72,14 +72,14 @@ class AudioPlaybackManager: NSObject {
         // first pull out speed and pitch
         for effect in effects {
             switch effect {
-            case .speed(let value):
+            case .rate(let value):
                 let speedNode = AVAudioUnitTimePitch()
                 speedNode.rate = value
                 audioEngine.attach(speedNode)
                 nodesArray.append(speedNode)
             case .pitch(let value):
                 let pitchNode = AVAudioUnitTimePitch()
-                pitchNode.rate = value
+                pitchNode.pitch = value
                 audioEngine.attach(pitchNode)
                 nodesArray.append(pitchNode)
             default:

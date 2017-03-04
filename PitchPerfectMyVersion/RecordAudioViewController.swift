@@ -144,7 +144,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             // playback
             do {
                 
-                try audioPlaybackManager?.playAudio(url: url, effects: [AudioEffects.echo])
+                try audioPlaybackManager?.playAudio(url: url, effects: [AudioEffects.pitch(1200.0)])
                 startElapsedTimer()
                 configureDisplayState(.playback)
             }
