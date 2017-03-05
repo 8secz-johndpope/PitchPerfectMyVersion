@@ -24,7 +24,6 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     @IBOutlet weak var recordingStatusLabel: UILabel!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var elapsedTimeLabel: UILabel!
-    @IBOutlet weak var audioLevelView: UIView!
     @IBOutlet weak var playbackButton: UIButton!
     @IBOutlet weak var playbackLabel: UILabel!
     @IBOutlet weak var audioEffectButton: UIButton!
