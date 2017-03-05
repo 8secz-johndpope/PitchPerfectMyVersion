@@ -22,6 +22,28 @@ enum AudioEffects {
     case echo
     case reverb
     case dry
+    
+    // function to return a descriptive name for effect
+    func effectName() -> String {
+        switch self {
+        case .rate(let value):
+            if value > 1.0 {
+                return "Rabbit!"
+            }
+            return "Snail!"
+        case .pitch(let value):
+            if value > 0 {
+                return "Chipmunk!"
+            }
+            return "Vader!"
+        case .echo:
+            return "Echo!"
+        case .reverb:
+            return "Reverb!"
+        case .dry:
+            return "Dry"
+        }
+    }
 }
 
 // protocol. Used to inform end of playing in delegate
