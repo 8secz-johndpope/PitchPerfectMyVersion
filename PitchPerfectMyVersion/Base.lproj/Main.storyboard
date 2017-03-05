@@ -26,23 +26,23 @@
                                 <rect key="frame" x="16" y="20" width="288" height="548"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rqn-aq-rHu" userLabel="Record">
-                                        <rect key="frame" x="0.0" y="0.0" width="288" height="122.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="123"/>
                                         <state key="normal" image="Record"/>
                                         <connections>
                                             <action selector="startRecordingButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5af-Go-Km8"/>
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="aRV-u0-mls">
-                                        <rect key="frame" x="0.0" y="122.5" width="288" height="112.5"/>
+                                        <rect key="frame" x="0.0" y="123" width="288" height="112"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="249" verticalCompressionResistancePriority="748" text="Record Audio" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gb0-tr-WkV">
-                                                <rect key="frame" x="0.0" y="0.0" width="288" height="37.5"/>
-                                                <fontDescription key="fontDescription" name="EuphemiaUCAS-Bold" family="Euphemia UCAS" pointSize="25"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="36.5"/>
+                                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="25"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TpM-jE-6Zm" userLabel="Stop">
-                                                <rect key="frame" x="0.0" y="37.5" width="288" height="75"/>
+                                                <rect key="frame" x="0.0" y="36.5" width="288" height="75.5"/>
                                                 <state key="normal" image="Stop"/>
                                                 <connections>
                                                     <action selector="stopButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sz9-PZ-ged"/>
@@ -57,13 +57,13 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="144" height="204.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elapsed Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ev-Sz-u5t">
-                                                        <rect key="frame" x="0.0" y="0.0" width="144" height="102.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="144" height="102"/>
+                                                        <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0'00.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zF0-VG-6C2">
-                                                        <rect key="frame" x="0.0" y="102.5" width="144" height="102"/>
+                                                        <rect key="frame" x="0.0" y="102" width="144" height="102.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -74,13 +74,13 @@
                                                 <rect key="frame" x="144" y="0.0" width="144" height="204.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio Effect" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDs-7K-9vo">
-                                                        <rect key="frame" x="0.0" y="0.0" width="144" height="102.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="144" height="102"/>
+                                                        <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYw-zH-Osk">
-                                                        <rect key="frame" x="0.0" y="102.5" width="144" height="102"/>
+                                                        <rect key="frame" x="0.0" y="102" width="144" height="102.5"/>
                                                         <state key="normal" image="Slow"/>
                                                         <connections>
                                                             <action selector="audioEffectButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YOM-te-ri6"/>
@@ -130,7 +130,6 @@
                         <outlet property="elapsedTimeLabel" destination="zF0-VG-6C2" id="VhP-8v-riV"/>
                         <outlet property="playAudioLabel" destination="Fqt-1v-O1K" id="f8t-5Z-kBr"/>
                         <outlet property="playbackButton" destination="8tk-TH-3hm" id="hm7-Bh-H2m"/>
-                        <outlet property="playbackLabel" destination="VDs-7K-9vo" id="Utg-eB-UYJ"/>
                         <outlet property="recordingStatusLabel" destination="gb0-tr-WkV" id="VtF-yO-qhY"/>
                         <outlet property="startRecordingButton" destination="Rqn-aq-rHu" id="cfJ-5O-qTK"/>
                         <outlet property="stopButton" destination="TpM-jE-6Zm" id="RNN-VS-jtL"/>
