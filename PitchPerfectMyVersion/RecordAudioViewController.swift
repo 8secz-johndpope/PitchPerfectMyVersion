@@ -69,7 +69,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         var image: UIImage!
         switch effect {
         case .dry:
-            image = UIImage(named: "Stop")
+            image = UIImage(named: "Dry")
         case .echo:
             image = UIImage(named: "Echo")
         case .reverb:
@@ -142,23 +142,29 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         else if let audioRecorderManager = audioRecorderManager {
          
             // stop recording and update label message and button state
-            audioRecorderManager.stopRecording()
+            //audioRecorderManager.stopRecording()
             
             // invalidate timer, test for valid recording time
-            timer?.invalidate()
-            if elapsedTime <= MINIMUM_ELAPSED_RECORD_TIME {
-                elapsedTime = 0
-                audioFileURL = nil
-                updateElapsedTimeLabel()
+            self.timer?.invalidate()
+            if self.elapsedTime <= self.MINIMUM_ELAPSED_RECORD_TIME {
+                self.elapsedTime = 0
+                self.audioFileURL = nil
+                self.updateElapsedTimeLabel()
             }
             
-            // deactivate session
-            let audioSession = AVAudioSession.sharedInstance()
-            do {
-                try audioSession.setActive(false)
-            }
-            catch {
-                showAlert(Errors.SessionError("Unable to set to inactive"))
+            Timer.scheduledTimer(withTimeInterval: 0.9, repeats: false) {
+                (aTimer) in
+                
+                audioRecorderManager.stopRecording()
+                
+                // deactivate session
+                let audioSession = AVAudioSession.sharedInstance()
+                do {
+                    try audioSession.setActive(false)
+                }
+                catch {
+                    self.showAlert(Errors.SessionError("Unable to set to inactive"))
+                }
             }
         }
     }
