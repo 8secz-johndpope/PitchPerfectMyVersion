@@ -26,22 +26,22 @@
                                 <rect key="frame" x="16" y="20" width="288" height="548"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="qHr-AF-kwA">
-                                        <rect key="frame" x="0.0" y="0.0" width="288" height="153.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="154"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pitch Perfect..Audio Recorder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VHB-cf-Trt">
-                                                <rect key="frame" x="0.0" y="0.0" width="288" height="28.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="28"/>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5M2-Ai-zEW">
-                                                <rect key="frame" x="0.0" y="28.5" width="288" height="20"/>
+                                                <rect key="frame" x="0.0" y="28" width="288" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rqn-aq-rHu" userLabel="Record">
-                                                <rect key="frame" x="0.0" y="48.5" width="288" height="105"/>
+                                                <rect key="frame" x="0.0" y="49" width="288" height="105"/>
                                                 <state key="normal" image="Record"/>
                                                 <connections>
                                                     <action selector="startRecordingButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5af-Go-Km8"/>
@@ -50,16 +50,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="aRV-u0-mls">
-                                        <rect key="frame" x="0.0" y="153.5" width="288" height="175.5"/>
+                                        <rect key="frame" x="0.0" y="154" width="288" height="175"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="249" verticalCompressionResistancePriority="748" text="Record Audio" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gb0-tr-WkV">
-                                                <rect key="frame" x="0.0" y="0.0" width="288" height="88"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="87"/>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="25"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TpM-jE-6Zm" userLabel="Stop">
-                                                <rect key="frame" x="0.0" y="88" width="288" height="87.5"/>
+                                                <rect key="frame" x="0.0" y="87" width="288" height="88"/>
                                                 <state key="normal" image="Stop"/>
                                                 <connections>
                                                     <action selector="stopButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sz9-PZ-ged"/>
@@ -80,13 +80,13 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0'00.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zF0-VG-6C2">
-                                                        <rect key="frame" x="0.0" y="44" width="150" height="43.5"/>
+                                                        <rect key="frame" x="0.0" y="44" width="150" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCW-pH-ZLl">
-                                                        <rect key="frame" x="0.0" y="87.5" width="150" height="43.5"/>
+                                                        <rect key="frame" x="0.0" y="88" width="150" height="43"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -104,13 +104,13 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dry" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KUe-nD-4fJ">
-                                                        <rect key="frame" x="0.0" y="88" width="138" height="23.5"/>
+                                                        <rect key="frame" x="0.0" y="88" width="138" height="23"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fmb-LA-LZm">
-                                                        <rect key="frame" x="0.0" y="111.5" width="138" height="19.5"/>
+                                                        <rect key="frame" x="0.0" y="111" width="138" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -174,10 +174,10 @@
                                 <rect key="frame" x="16" y="20" width="288" height="548"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IIj-Ie-kYh">
-                                        <rect key="frame" x="0.0" y="0.0" width="288" height="53.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="54"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Audio Effect" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPA-iW-1Xb">
-                                                <rect key="frame" x="0.0" y="0.0" width="288" height="53.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="54"/>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="30"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -185,17 +185,17 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="vXQ-3y-vik">
-                                        <rect key="frame" x="0.0" y="53.5" width="288" height="123.5"/>
+                                        <rect key="frame" x="0.0" y="54" width="288" height="123"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="65U-XQ-E14" userLabel="Slow">
-                                                <rect key="frame" x="0.0" y="0.0" width="144" height="123.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="144" height="123"/>
                                                 <state key="normal" image="Slow"/>
                                                 <connections>
                                                     <action selector="audioEffectButtonPressed:" destination="xcf-6B-TX8" eventType="touchUpInside" id="2dw-FH-YWj"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mDE-zZ-tne" userLabel="Fast">
-                                                <rect key="frame" x="144" y="0.0" width="144" height="123.5"/>
+                                                <rect key="frame" x="144" y="0.0" width="144" height="123"/>
                                                 <state key="normal" image="Fast"/>
                                                 <connections>
                                                     <action selector="audioEffectButtonPressed:" destination="xcf-6B-TX8" eventType="touchUpInside" id="VMj-dv-SI6"/>
@@ -223,17 +223,17 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="khl-Xq-tMb">
-                                        <rect key="frame" x="0.0" y="301" width="288" height="123.5"/>
+                                        <rect key="frame" x="0.0" y="301" width="288" height="123"/>
                                         <subviews>
                                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KHJ-zq-NFA" userLabel="Echo">
-                                                <rect key="frame" x="0.0" y="0.0" width="144" height="123.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="144" height="123"/>
                                                 <state key="normal" image="Echo"/>
                                                 <connections>
                                                     <action selector="audioEffectButtonPressed:" destination="xcf-6B-TX8" eventType="touchUpInside" id="uGY-yO-ISb"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tSX-US-1TO" userLabel="Reverb">
-                                                <rect key="frame" x="144" y="0.0" width="144" height="123.5"/>
+                                                <rect key="frame" x="144" y="0.0" width="144" height="123"/>
                                                 <state key="normal" image="Reverb"/>
                                                 <connections>
                                                     <action selector="audioEffectButtonPressed:" destination="xcf-6B-TX8" eventType="touchUpInside" id="rlv-x7-0nG"/>
@@ -242,10 +242,10 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="tU2-nk-enm">
-                                        <rect key="frame" x="0.0" y="424.5" width="288" height="123.5"/>
+                                        <rect key="frame" x="0.0" y="424" width="288" height="124"/>
                                         <subviews>
                                             <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ml0-1s-3rL" userLabel="Stop">
-                                                <rect key="frame" x="0.0" y="0.0" width="288" height="123.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="124"/>
                                                 <state key="normal" image="Dry"/>
                                                 <connections>
                                                     <action selector="audioEffectButtonPressed:" destination="xcf-6B-TX8" eventType="touchUpInside" id="3SZ-0o-Ehn"/>
