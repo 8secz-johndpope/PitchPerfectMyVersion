@@ -134,6 +134,7 @@
                     <navigationItem key="navigationItem" id="ZDe-WH-HwA"/>
                     <connections>
                         <outlet property="audioEffectButton" destination="OYw-zH-Osk" id="5pG-5K-eKd"/>
+                        <outlet property="effectNameLabel" destination="KUe-nD-4fJ" id="WVF-CK-Xl2"/>
                         <outlet property="elapsedTimeLabel" destination="zF0-VG-6C2" id="VhP-8v-riV"/>
                         <outlet property="playAudioLabel" destination="Fqt-1v-O1K" id="f8t-5Z-kBr"/>
                         <outlet property="playbackButton" destination="8tk-TH-3hm" id="hm7-Bh-H2m"/>

@@ -27,6 +27,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     @IBOutlet weak var playbackButton: UIButton!
     @IBOutlet weak var audioEffectButton: UIButton!
     @IBOutlet weak var playAudioLabel: UILabel!
+    @IBOutlet weak var effectNameLabel: UILabel!
 
     // ref to audioRecorderManager and audioPlaybackManager
     var audioRecorderManager: AudioRecorderManager?
@@ -86,6 +87,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             }
         }
         audioEffectButton.setImage(image, for: .normal)
+        effectNameLabel.text = effect.effectName()
         
         // set buttons/labels to ready to record state
         configureDisplayState(.ready)
