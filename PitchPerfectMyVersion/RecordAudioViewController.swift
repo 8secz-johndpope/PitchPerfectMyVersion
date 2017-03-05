@@ -26,7 +26,6 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     @IBOutlet weak var elapsedTimeLabel: UILabel!
     @IBOutlet weak var playbackButton: UIButton!
     @IBOutlet weak var audioEffectButton: UIButton!
-    @IBOutlet weak var playAudioLabel: UILabel!
     @IBOutlet weak var effectNameLabel: UILabel!
 
     // ref to audioRecorderManager and audioPlaybackManager
@@ -193,32 +192,27 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             audioEffectButton.isEnabled = true
             recordingStatusLabel.text = "Press to Record"
             if let _ = audioFileURL {
-                playAudioLabel.alpha = 1.0
                 playbackButton.isEnabled = true
             }
             else {
-                playAudioLabel.alpha = 0.5
                 playbackButton.isEnabled = false
             }
         case .recording:
             startRecordingButton.isEnabled = false
             stopButton.isEnabled = true
             recordingStatusLabel.text = "Recording in Progress"
-            playAudioLabel.alpha = 0.5
             playbackButton.isEnabled = false
             audioEffectButton.isEnabled = false
         case .playback:
             startRecordingButton.isEnabled = false
             stopButton.isEnabled = true
             recordingStatusLabel.text = "Playing Audio"
-            playAudioLabel.alpha = 0.5
             playbackButton.isEnabled = false
             audioEffectButton.isEnabled = false
         case .problem:
             startRecordingButton.isEnabled = false
             stopButton.isEnabled = false
             recordingStatusLabel.text = "Error recording"
-            playAudioLabel.alpha = 0.5
             playbackButton.isEnabled = false
             audioEffectButton.isEnabled = false
             break

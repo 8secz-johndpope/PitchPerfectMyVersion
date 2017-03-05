@@ -26,22 +26,22 @@
                                 <rect key="frame" x="16" y="20" width="288" height="548"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="qHr-AF-kwA">
-                                        <rect key="frame" x="0.0" y="0.0" width="288" height="152"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="153.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pitch Perfect..Audio Recorder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VHB-cf-Trt">
-                                                <rect key="frame" x="0.0" y="0.0" width="288" height="28"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="28.5"/>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5M2-Ai-zEW">
-                                                <rect key="frame" x="0.0" y="28" width="288" height="20"/>
+                                                <rect key="frame" x="0.0" y="28.5" width="288" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rqn-aq-rHu" userLabel="Record">
-                                                <rect key="frame" x="0.0" y="48" width="288" height="104"/>
+                                                <rect key="frame" x="0.0" y="48.5" width="288" height="105"/>
                                                 <state key="normal" image="Record"/>
                                                 <connections>
                                                     <action selector="startRecordingButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5af-Go-Km8"/>
@@ -50,16 +50,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="aRV-u0-mls">
-                                        <rect key="frame" x="0.0" y="152" width="288" height="174"/>
+                                        <rect key="frame" x="0.0" y="153.5" width="288" height="175.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="249" verticalCompressionResistancePriority="748" text="Record Audio" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gb0-tr-WkV">
-                                                <rect key="frame" x="0.0" y="0.0" width="288" height="87"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="88"/>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="25"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TpM-jE-6Zm" userLabel="Stop">
-                                                <rect key="frame" x="0.0" y="87" width="288" height="87"/>
+                                                <rect key="frame" x="0.0" y="88" width="288" height="87.5"/>
                                                 <state key="normal" image="Stop"/>
                                                 <connections>
                                                     <action selector="stopButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sz9-PZ-ged"/>
@@ -68,25 +68,25 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="3S6-cv-n20">
-                                        <rect key="frame" x="0.0" y="326" width="288" height="130"/>
+                                        <rect key="frame" x="0.0" y="329" width="288" height="131"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="6uZ-XI-NeV">
-                                                <rect key="frame" x="0.0" y="0.0" width="150" height="130"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="150" height="131"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elapsed Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ev-Sz-u5t">
-                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="43"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="44"/>
                                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0'00.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zF0-VG-6C2">
-                                                        <rect key="frame" x="0.0" y="43" width="150" height="43.5"/>
+                                                        <rect key="frame" x="0.0" y="44" width="150" height="43.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCW-pH-ZLl">
-                                                        <rect key="frame" x="0.0" y="86.5" width="150" height="43.5"/>
+                                                        <rect key="frame" x="0.0" y="87.5" width="150" height="43.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -94,23 +94,23 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="bJz-m9-7Ml">
-                                                <rect key="frame" x="150" y="0.0" width="138" height="130"/>
+                                                <rect key="frame" x="150" y="0.0" width="138" height="131"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYw-zH-Osk">
-                                                        <rect key="frame" x="0.0" y="0.0" width="138" height="87"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="138" height="88"/>
                                                         <state key="normal" image="Slow"/>
                                                         <connections>
                                                             <action selector="audioEffectButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YOM-te-ri6"/>
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dry" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KUe-nD-4fJ">
-                                                        <rect key="frame" x="0.0" y="87" width="138" height="23"/>
+                                                        <rect key="frame" x="0.0" y="88" width="138" height="23.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fmb-LA-LZm">
-                                                        <rect key="frame" x="0.0" y="110" width="138" height="20"/>
+                                                        <rect key="frame" x="0.0" y="111.5" width="138" height="19.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -120,21 +120,15 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="fkm-yG-fVB">
-                                        <rect key="frame" x="0.0" y="456" width="288" height="92"/>
+                                        <rect key="frame" x="0.0" y="460" width="288" height="88"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8tk-TH-3hm">
-                                                <rect key="frame" x="0.0" y="0.0" width="288" height="48"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="88"/>
                                                 <state key="normal" image="playButton"/>
                                                 <connections>
                                                     <action selector="playbackButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="X4y-3x-aRQ"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play Audio" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fqt-1v-O1K">
-                                                <rect key="frame" x="0.0" y="48" width="288" height="44"/>
-                                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="35"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -153,7 +147,6 @@
                         <outlet property="audioEffectButton" destination="OYw-zH-Osk" id="5pG-5K-eKd"/>
                         <outlet property="effectNameLabel" destination="KUe-nD-4fJ" id="WVF-CK-Xl2"/>
                         <outlet property="elapsedTimeLabel" destination="zF0-VG-6C2" id="VhP-8v-riV"/>
-                        <outlet property="playAudioLabel" destination="Fqt-1v-O1K" id="f8t-5Z-kBr"/>
                         <outlet property="playbackButton" destination="8tk-TH-3hm" id="hm7-Bh-H2m"/>
                         <outlet property="recordingStatusLabel" destination="gb0-tr-WkV" id="VtF-yO-qhY"/>
                         <outlet property="startRecordingButton" destination="Rqn-aq-rHu" id="cfJ-5O-qTK"/>
@@ -287,6 +280,6 @@
         <image name="Reverb" width="90" height="90"/>
         <image name="Slow" width="90" height="90"/>
         <image name="Stop" width="90" height="90"/>
-        <image name="playButton" width="50" height="50"/>
+        <image name="playButton" width="90" height="90"/>
     </resources>
 </document>
