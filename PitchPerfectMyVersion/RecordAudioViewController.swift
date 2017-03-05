@@ -142,16 +142,8 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         }
         else if let audioRecorderManager = audioRecorderManager {
          
-            // stop recording and update label message and button state
+            // currently recording. Stop recording and update label message and button state
             audioRecorderManager.stopRecording()
-            
-            // invalidate timer, test for valid recording time
-            self.timer?.invalidate()
-            if self.elapsedTime <= self.MINIMUM_ELAPSED_RECORD_TIME {
-                self.elapsedTime = 0
-                self.audioFileURL = nil
-                self.updateElapsedTimeLabel()
-            }
             
             // deactivate session
             let audioSession = AVAudioSession.sharedInstance()
@@ -281,6 +273,13 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         timer?.invalidate()
         audioRecorderManager = nil
         configureDisplayState(.ready)
+        
+        // test for valid recording time
+        if elapsedTime <= self.MINIMUM_ELAPSED_RECORD_TIME {
+            elapsedTime = 0
+            audioFileURL = nil
+            updateElapsedTimeLabel()
+        }
     }
     
     // func to create/show alert..from error
@@ -322,10 +321,12 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         present(alert, animated: true, completion: nil)
     }
     
+    // invoke AudioEffectVC
     @IBAction func audioEffectButtonPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "AudioEffectsSegue", sender: self)
     }
     
+    // config AudioEffectsVC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "AudioEffectsSegue" {
