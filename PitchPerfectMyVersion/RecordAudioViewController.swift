@@ -25,7 +25,6 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var elapsedTimeLabel: UILabel!
     @IBOutlet weak var playbackButton: UIButton!
-    @IBOutlet weak var playbackLabel: UILabel!
     @IBOutlet weak var audioEffectButton: UIButton!
     @IBOutlet weak var playAudioLabel: UILabel!
 
@@ -192,12 +191,10 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             audioEffectButton.isEnabled = true
             recordingStatusLabel.text = "Press to Record"
             if let _ = audioFileURL {
-                playbackLabel.alpha = 1.0
                 playAudioLabel.alpha = 1.0
                 playbackButton.isEnabled = true
             }
             else {
-                playbackLabel.alpha = 0.5
                 playAudioLabel.alpha = 0.5
                 playbackButton.isEnabled = false
             }
@@ -205,7 +202,6 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             startRecordingButton.isEnabled = false
             stopButton.isEnabled = true
             recordingStatusLabel.text = "Recording in Progress"
-            playbackLabel.alpha = 0.5
             playAudioLabel.alpha = 0.5
             playbackButton.isEnabled = false
             audioEffectButton.isEnabled = false
@@ -213,7 +209,6 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             startRecordingButton.isEnabled = false
             stopButton.isEnabled = true
             recordingStatusLabel.text = "Playing Audio"
-            playbackLabel.alpha = 0.5
             playAudioLabel.alpha = 0.5
             playbackButton.isEnabled = false
             audioEffectButton.isEnabled = false
@@ -221,7 +216,6 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             startRecordingButton.isEnabled = false
             stopButton.isEnabled = false
             recordingStatusLabel.text = "Error recording"
-            playbackLabel.alpha = 0.5
             playAudioLabel.alpha = 0.5
             playbackButton.isEnabled = false
             audioEffectButton.isEnabled = false
