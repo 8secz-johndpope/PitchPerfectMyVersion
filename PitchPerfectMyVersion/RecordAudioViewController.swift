@@ -41,7 +41,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     // ref to audio url
     var audioFileURL: URL?
     
-    // ref to current playback audio effect
+    // ref to current playback audio effect..default to "Dry" at app startup
     var effect = AudioEffects.dry
     
     // enum for button/label states
@@ -62,10 +62,8 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    
-        // set buttons/labels to ready to record state
-        configureDisplayState(.ready)
         
+        // set effect button image
         var image: UIImage!
         switch effect {
         case .dry:
@@ -90,6 +88,9 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
             }
         }
         audioEffectButton.setImage(image, for: .normal)
+        
+        // set buttons/labels to ready to record state
+        configureDisplayState(.ready)
     }
     
     // function to start recording
@@ -142,7 +143,7 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
         else if let audioRecorderManager = audioRecorderManager {
          
             // stop recording and update label message and button state
-            //audioRecorderManager.stopRecording()
+            audioRecorderManager.stopRecording()
             
             // invalidate timer, test for valid recording time
             self.timer?.invalidate()
@@ -152,19 +153,13 @@ class RecordAudioViewController: UIViewController, AudioPlaybackManagerDelegate,
                 self.updateElapsedTimeLabel()
             }
             
-            Timer.scheduledTimer(withTimeInterval: 0.9, repeats: false) {
-                (aTimer) in
-                
-                audioRecorderManager.stopRecording()
-                
-                // deactivate session
-                let audioSession = AVAudioSession.sharedInstance()
-                do {
-                    try audioSession.setActive(false)
-                }
-                catch {
-                    self.showAlert(Errors.SessionError("Unable to set to inactive"))
-                }
+            // deactivate session
+            let audioSession = AVAudioSession.sharedInstance()
+            do {
+                try audioSession.setActive(false)
+            }
+            catch {
+                self.showAlert(Errors.SessionError("Unable to set to inactive"))
             }
         }
     }
